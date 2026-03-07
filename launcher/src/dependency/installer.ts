@@ -12,4 +12,8 @@ export class Installer {
   repairDependencies(root: string): void {
     execSync('npm ci', { cwd: root, stdio: 'inherit' });
   }
+
+  restoreBuildArtifacts(root: string): void {
+    execSync('npm run build', { cwd: root, stdio: 'inherit' });
+  }
 }

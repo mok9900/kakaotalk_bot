@@ -1,14 +1,18 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'node:path';
 import { BotRuntime } from '@core/lifecycle/bot-runtime';
+import type { PerformanceMode } from '@shared/types/system';
 
 const runtime = new BotRuntime();
 
 async function createWindow() {
   const win = new BrowserWindow({
-    width: 1400,
-    height: 900,
-    backgroundColor: '#0b1020',
+    width: 1700,
+    height: 1000,
+    minWidth: 1360,
+    minHeight: 820,
+    backgroundColor: '#040812',
+    vibrancy: process.platform === 'darwin' ? 'under-window' : undefined,
     webPreferences: {
       preload: join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -33,18 +37,22 @@ app.whenReady().then(async () => {
 
 ipcMain.handle('runtime:start', async () => {
   await runtime.start();
-  return runtime.status();
+  return runtime.dashboardSnapshot();
 });
 
 ipcMain.handle('runtime:stop', async () => {
   await runtime.stop();
-  return runtime.status();
+  return runtime.dashboardSnapshot();
 });
 
-ipcMain.handle('runtime:status', async () => runtime.status());
+ipcMain.handle('runtime:snapshot', async () => runtime.dashboardSnapshot());
 ipcMain.handle('runtime:restart-bridge', async () => {
   await runtime.restartBridge();
-  return runtime.status();
+  return runtime.dashboardSnapshot();
+});
+ipcMain.handle('runtime:set-performance-mode', async (_event, mode: PerformanceMode) => {
+  await runtime.setPerformanceMode(mode);
+  return runtime.dashboardSnapshot();
 });
 
 app.on('window-all-closed', () => {

@@ -1,5 +1,7 @@
 export type HealthState = 'healthy' | 'degraded' | 'unhealthy' | 'unknown';
 
+export type PerformanceMode = 'balanced' | 'high-performance' | 'safe';
+
 export interface ServiceHealth {
   name: string;
   status: HealthState;
@@ -15,6 +17,7 @@ export interface RuntimeDependency {
   installedVersion?: string;
   status: 'missing' | 'outdated' | 'valid' | 'corrupt';
   required: boolean;
+  installHint?: string;
 }
 
 export interface BootstrapStepResult {
@@ -31,4 +34,21 @@ export interface AppPaths {
   logsDir: string;
   configDir: string;
   diagnosticsDir: string;
+  runtimeDir: string;
+}
+
+export interface RuntimeVersions {
+  appVersion: string;
+  nodeVersion: string;
+  electronVersion: string;
+  chromeVersion?: string;
+}
+
+export interface PerformanceSnapshot {
+  cpuLoadPercent: number;
+  memoryUsedMb: number;
+  memoryTotalMb: number;
+  mode: PerformanceMode;
+  protectionTriggered: boolean;
+  preferredGpu: 'external' | 'integrated' | 'unknown';
 }

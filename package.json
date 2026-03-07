@@ -1,6 +1,6 @@
 {
   "name": "kakaotalk-premium-agent-manager",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Premium Windows desktop AI agent manager for KakaoTalk PC",
   "private": true,
   "main": "dist/main/main.js",
@@ -11,9 +11,9 @@
     "build:main": "tsc -p tsconfig.main.json",
     "build:renderer": "vite build",
     "build:launcher": "tsc -p tsconfig.launcher.json",
-    "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:main\"",
+    "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:electron\"",
     "dev:renderer": "vite",
-    "dev:main": "ts-node main/src/main.ts",
+    "dev:electron": "electron .",
     "lint": "tsc --noEmit -p tsconfig.json",
     "start": "ts-node launcher/src/index.ts",
     "package:win": "npm run build && electron-builder --win nsis"
@@ -46,9 +46,25 @@
       "dist/**/*",
       "package.json"
     ],
+    "extraMetadata": {
+      "main": "dist/main/main.js"
+    },
     "win": {
-      "target": ["nsis"],
-      "artifactName": "KakaoAgentManager-${version}-setup.${ext}"
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "KakaoAgentManager-${version}-setup.${ext}",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }
