@@ -1,0 +1,73 @@
+{
+  "name": "kakaotalk-premium-agent-manager",
+  "version": "0.2.0",
+  "description": "Premium Windows desktop AI agent manager for KakaoTalk PC",
+  "private": true,
+  "main": "dist/main/main.js",
+  "author": "Codex",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "npm run build:main && npm run build:renderer && npm run build:launcher",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "vite build",
+    "build:launcher": "tsc -p tsconfig.launcher.json",
+    "dev": "concurrently \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:renderer": "vite",
+    "dev:electron": "electron .",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "start": "ts-node launcher/src/index.ts",
+    "package:win": "npm run build && electron-builder --win nsis",
+    "build:exe:win": "powershell -ExecutionPolicy Bypass -File scripts/build-win.ps1"
+  },
+  "dependencies": {
+    "electron": "^31.7.7",
+    "firebase": "^11.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "electron-builder": "^25.1.8",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
+  },
+  "build": {
+    "appId": "com.kakaotalk.agentmanager",
+    "productName": "Kakao Agent Manager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "dist/main/main.js"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "KakaoAgentManager-${version}-setup.${ext}",
+      "requestedExecutionLevel": "asInvoker"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

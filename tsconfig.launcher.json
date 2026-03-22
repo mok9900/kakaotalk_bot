@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist/launcher"
+  },
+  "include": ["launcher/src/**/*", "services/src/**/*", "shared/src/**/*"]
+}

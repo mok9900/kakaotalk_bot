@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "paths": {
+      "@shared/*": ["shared/src/*"],
+      "@services/*": ["services/src/*"],
+      "@core/*": ["core/src/*"],
+      "@bridge/*": ["bridge/src/*"],
+      "@agent/*": ["agent/src/*"],
+      "@commands/*": ["commands/src/*"],
+      "@storage/*": ["storage/src/*"]
+    }
+  },
+  "include": [
+    "launcher/src/**/*",
+    "main/src/**/*",
+    "ui/src/**/*",
+    "core/src/**/*",
+    "bridge/src/**/*",
+    "agent/src/**/*",
+    "commands/src/**/*",
+    "services/src/**/*",
+    "shared/src/**/*",
+    "storage/src/**/*",
+    "vite.config.ts"
+  ]
+}
