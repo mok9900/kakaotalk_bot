@@ -16,7 +16,8 @@
     "dev:electron": "electron .",
     "lint": "tsc --noEmit -p tsconfig.json",
     "start": "ts-node launcher/src/index.ts",
-    "package:win": "npm run build && electron-builder --win nsis"
+    "package:win": "npm run build && electron-builder --win nsis",
+    "build:exe:win": "powershell -ExecutionPolicy Bypass -File scripts/build-win.ps1"
   },
   "dependencies": {
     "electron": "^31.7.7",
@@ -53,7 +54,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "artifactName": "KakaoAgentManager-${version}-setup.${ext}",
